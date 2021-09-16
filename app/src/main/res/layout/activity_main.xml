@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationView"
+        android:layout_width="270dp"
+        android:layout_height="270dp"
+        android:layout_gravity="center"
+        android:layout_margin="25dp"
+        android:layout_marginBottom="0dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/password_animation" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -12,16 +25,17 @@
         android:layout_centerVertical="true">
 
         <TextView
+
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
             android:selectAllOnFocus="true"
             android:text="Click to generate"
             android:textColor="#4F2BA0"
             android:textIsSelectable="true"
-            android:textSize="28sp"
-            android:layout_marginBottom="10dp"/>
+            android:textSize="28sp" />
 
         <LinearLayout
             android:id="@+id/filters"
@@ -39,17 +53,27 @@
                 android:layout_height="45dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="15dp"
-                android:hint="Special words" />
+                android:layout_weight="1"
+                android:background="@drawable/edittext_background"
+                android:hint="Special words"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp" />
 
             <EditText
+
                 android:id="@+id/characterNumber"
                 android:layout_width="70dp"
                 android:layout_height="45dp"
                 android:layout_gravity="end"
                 android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_background"
+                android:gravity="center"
                 android:hint="min(5)"
                 android:inputType="number"
-               />
+                android:paddingStart="10dp"
+
+                android:paddingEnd="10dp" />
         </LinearLayout>
 
 
@@ -60,8 +84,10 @@
             android:layout_below="@+id/filters"
             android:layout_centerInParent="true"
             android:layout_marginTop="5dp"
-            android:text="generate"
-            android:enabled="false"/>
+            android:background="@drawable/button_background"
+            android:backgroundTint="@color/white"
+            android:enabled="false"
+            android:text="generate" />
 
         <Button
             android:id="@+id/copyPassword"
@@ -69,11 +95,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/generateButton"
             android:layout_centerInParent="true"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_background"
             android:enabled="false"
             android:text="copy" />
 
     </RelativeLayout>
 
 
-</RelativeLayout>
+</LinearLayout>
