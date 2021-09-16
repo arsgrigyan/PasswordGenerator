@@ -85,7 +85,6 @@
             android:layout_centerInParent="true"
             android:layout_marginTop="5dp"
             android:background="@drawable/button_background"
-            android:backgroundTint="@color/white"
             android:enabled="false"
             android:text="generate" />
 
