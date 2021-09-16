@@ -14,93 +14,99 @@
         android:layout_gravity="center"
         android:layout_margin="25dp"
         android:layout_marginBottom="0dp"
+        android:foregroundGravity="center"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/password_animation" />
 
-    <RelativeLayout
+
+    <LinearLayout
+        android:id="@+id/linear1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true">
+        android:layout_gravity="center"
+        android:orientation="horizontal">
 
         <TextView
-
+            android:backgroundTint="@color/black"
+            android:background="@drawable/textview_background"
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_marginEnd="-8dp"
             android:layout_marginBottom="10dp"
-            android:selectAllOnFocus="true"
+            android:gravity="center"
             android:text="Click to generate"
             android:textColor="#4F2BA0"
-            android:textIsSelectable="true"
             android:textSize="28sp" />
 
-        <LinearLayout
-            android:id="@+id/filters"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="15dp"
-            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/specialWord"
-                android:layout_width="150dp"
-                android:layout_height="45dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="15dp"
-                android:layout_weight="1"
-                android:background="@drawable/edittext_background"
-                android:hint="Special words"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp" />
-
-            <EditText
-
-                android:id="@+id/characterNumber"
-                android:layout_width="70dp"
-                android:layout_height="45dp"
-                android:layout_gravity="end"
-                android:layout_marginEnd="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/edittext_background"
-                android:gravity="center"
-                android:hint="min(5)"
-                android:inputType="number"
-                android:paddingStart="10dp"
-
-                android:paddingEnd="10dp" />
-        </LinearLayout>
-
-
-        <Button
-            android:id="@+id/generateButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/filters"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/button_background"
-            android:backgroundTint="@color/white"
-            android:enabled="false"
-            android:text="generate" />
-
-        <Button
+        <ImageButton
             android:id="@+id/copyPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/generateButton"
             android:layout_centerInParent="true"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/textView"
             android:background="@drawable/button_background"
-            android:enabled="false"
-            android:text="copy" />
+            android:clickable="false"
+            android:src="@drawable/ic_copy_1" />
+    </LinearLayout>
 
-    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/filters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear1"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/specialWord"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/edittext_background"
+            android:hint="Special words"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp" />
+
+        <EditText
+
+            android:id="@+id/characterNumber"
+            android:layout_width="70dp"
+            android:layout_height="45dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/edittext_background"
+            android:gravity="center"
+            android:hint="min(5)"
+            android:inputType="number"
+            android:paddingStart="10dp"
+
+            android:paddingEnd="10dp" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/generateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/filters"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/button_background"
+        android:enabled="false"
+        android:text="generate"
+        android:textStyle="bold" />
 
 
 </LinearLayout>

@@ -5,6 +5,8 @@
       <map>
         <entry key="app/src/main/res/drawable/button_background.xml" value="0.3640625" />
         <entry key="app/src/main/res/drawable/edittext_background.xml" value="0.3640625" />
+        <entry key="app/src/main/res/drawable/ic_copy_2.xml" value="0.3640625" />
+        <entry key="app/src/main/res/drawable/textview_background.xml" value="0.3640625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
       </map>
     </option>

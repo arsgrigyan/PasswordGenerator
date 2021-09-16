@@ -9,10 +9,8 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val passwordGenerator = PasswordGenerator()
         val generateButton = findViewById<Button>(R.id.generateButton)
-        val passwordCopier = findViewById<Button>(R.id.copyPassword)
+        val passwordCopier = findViewById<ImageButton>(R.id.copyPassword)
         val passwordText = findViewById<TextView>(R.id.textView)
         val specialWord = findViewById<EditText>(R.id.specialWord)
         val characterNum = findViewById<EditText>(R.id.characterNumber)
@@ -38,20 +36,19 @@ class MainActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val numberInput = characterNum.text.toString().trim()
-                generateButton.isEnabled = numberInput.isNotEmpty() && numberInput.toInt() !in 0..4
+                generateButton.isEnabled = numberInput.isNotEmpty() && 5 <= numberInput.toInt() && numberInput.toInt() < 16
             }
         })
 
 
 
-        generateButton.setOnClickListener {
+       generateButton.setOnClickListener {
             val password: String = passwordGenerator.generatePassword(
                 characterNum.text.toString().toInt(),
                 specialWord.text.toString()
             )
             passwordText.text = password
-            passwordCopier.isEnabled = characterNum.text.toString().isNotEmpty()
-
+            passwordCopier.setImageResource(R.drawable.ic_copy_2)
             Log.i("Generated password:", password)
 
 
@@ -60,20 +57,24 @@ class MainActivity : AppCompatActivity() {
 
 
         fun copyTextToClipboard() {
-            val textToCopy = passwordText.text
-            val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clipData = ClipData.newPlainText("text", textToCopy)
-            clipboardManager.setPrimaryClip(clipData)
-            Toast.makeText(this, "Password copied to clipboard", Toast.LENGTH_LONG).show()
+            if(passwordText.text.toString() == "Click to generate"){
+                Toast.makeText(this, "No password generated!", Toast.LENGTH_SHORT).show()
+            }else {
+                val textToCopy = passwordText.text
+                val clipboardManager =
+                    getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipData = ClipData.newPlainText("text", textToCopy)
+                clipboardManager.setPrimaryClip(clipData)
+                Toast.makeText(this, "Password copied to clipboard", Toast.LENGTH_LONG).show()
+            }
 
 
         }
 
-        passwordCopier.setOnClickListener {
 
-            copyTextToClipboard()
-
-        }
+            passwordCopier.setOnClickListener {
+                    copyTextToClipboard()
+                }
 
 
     }
