@@ -2,80 +2,106 @@ package com.southernSunrise.passwordgenerator
 
 
 import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.*
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
 
 
-
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    lateinit var drawer: DrawerLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val passwordGenerator = PasswordGenerator()
-        val generateButton = findViewById<Button>(R.id.generateButton)
-        val passwordCopier = findViewById<ImageButton>(R.id.copyPassword)
-        val passwordText = findViewById<TextView>(R.id.textView)
-        val specialWord = findViewById<EditText>(R.id.specialWord)
-        val characterNum = findViewById<EditText>(R.id.characterNumber)
+        drawer = findViewById(R.id.drawer_layout)
+        val navigationView: NavigationView = findViewById(R.id.nav_view)
+        navigationView.setNavigationItemSelectedListener(this)
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        val toggle: ActionBarDrawerToggle = ActionBarDrawerToggle(this,
+            drawer,
+            toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close)
+        drawer.addDrawerListener(toggle)
+        toggle.syncState()
 
-
-
-
-        characterNum.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val numberInput = characterNum.text.toString().trim()
-                generateButton.isEnabled = numberInput.isNotEmpty() && 5 <= numberInput.toInt() && numberInput.toInt() < 16
-            }
-        })
-
-
-
-       generateButton.setOnClickListener {
-            val password: String = passwordGenerator.generatePassword(
-                characterNum.text.toString().toInt(),
-                specialWord.text.toString()
-            )
-            passwordText.text = password
-            passwordCopier.setImageResource(R.drawable.ic_copy_2)
-            Log.i("Generated password:", password)
-
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
+                PasswordGeneratorFragment()).commit()
+            navigationView.setCheckedItem(R.id.nav_generator)
 
         }
+        val appSettingPrefs: SharedPreferences = getSharedPreferences("AppSettingPrefs", 0)
+        val isNightModeOn: Boolean = appSettingPrefs.getBoolean("NightMode", false)
+        if (isNightModeOn) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.options_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.opt_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
 
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.nav_generator -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container,
+                        PasswordGeneratorFragment()).commit()
+                supportActionBar?.title = "Password Generator";
 
-        fun copyTextToClipboard() {
-            if(passwordText.text.toString() == "Click to generate"){
-                Toast.makeText(this, "No password generated!", Toast.LENGTH_SHORT).show()
-            }else {
-                val textToCopy = passwordText.text
-                val clipboardManager =
-                    getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clipData = ClipData.newPlainText("text", textToCopy)
-                clipboardManager.setPrimaryClip(clipData)
-                Toast.makeText(this, "Password copied to clipboard", Toast.LENGTH_LONG).show()
+            }
+
+            R.id.nav_safety -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container,
+                        SafetyCheckerFragment()).commit()
+                supportActionBar?.title = "Password Safety Check"
+
             }
 
 
+            R.id.nav_share -> {
+                val intent = Intent()
+                intent.action = Intent.ACTION_SEND
+                intent.putExtra(Intent.EXTRA_TEXT, "www.passwordgenerator.am")
+                intent.type = "text/plain"
+                startActivity(Intent.createChooser(intent, "Share to:"))
+
+            }
+
         }
+        drawer.closeDrawer(GravityCompat.START)
+        return true
+    }
 
-
-            passwordCopier.setOnClickListener {
-                    copyTextToClipboard()
-                }
-
-
+    override fun onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
     }
 }
